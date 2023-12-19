@@ -41,7 +41,7 @@ var studentProfileInfo = {
   "bio":
       "Exploring the world, one adventure at a time, Music Enthusiast | 🍜 Foodie | ☕ Coffee Lover",
   "server": "!jkhasjkda67",
-  "admin": false,
+  "admin": true,
 };
 
 var serverInfo = [

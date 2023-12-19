@@ -104,6 +104,12 @@ class _StudentProfileState extends State<StudentProfile> {
                         textColor: appBarColor,
                         onClickFunction: () {},
                       ),
+                      CustomButton(
+                        buttonColor: alertColor,
+                        buttonText: "Kick",
+                        textColor: appBarColor,
+                        onClickFunction: () {},
+                      ),
                       const SizedBox(height: 8),
                     ],
                   ),

@@ -49,3 +49,14 @@ const userInformation = {
     ],
     crushes: []
 }
+
+const server = {
+    name: "bruh",
+    limit: 30,
+    logo: "ashdkajshd",
+    participants: 7,
+    membersList: [],
+    blacklisted: []
+}
+
+import 'package:flutter/material.dart';

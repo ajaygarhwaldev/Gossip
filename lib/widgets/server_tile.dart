@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:gossip/constants.dart';
 
@@ -6,14 +8,14 @@ class ServerTile extends StatelessWidget {
   final String participants;
   final double height;
   final double width;
-  final String imageLink;
+  final String imageCode;
   const ServerTile({
     super.key,
     required this.participants,
     required this.serverName,
     required this.height,
     required this.width,
-    required this.imageLink,
+    required this.imageCode,
   });
 
   @override
@@ -29,8 +31,8 @@ class ServerTile extends StatelessWidget {
               Radius.circular(30),
             ),
             image: DecorationImage(
-              image: NetworkImage(
-                imageLink,
+              image: MemoryImage(
+                base64Decode(imageCode),
               ),
               fit: BoxFit.cover,
             ),

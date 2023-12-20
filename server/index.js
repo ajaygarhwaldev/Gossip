@@ -3,12 +3,14 @@ const mongoose = require("mongoose");
 const signUpRouteFile = require("./routes/signup");
 const signInRouterFile = require("./routes/signin");
 const verifyTokenRouterFile = require("./routes/verifyToken");
+const fetchingServerRouterFile = require("./routes/fetchingServer");
 
 const app = express();
 app.use(express.json());
 app.use(signUpRouteFile.signUpRouter);
 app.use(signInRouterFile.signInRouter);
 app.use(verifyTokenRouterFile.verifyTokenRouter);
+app.use(fetchingServerRouterFile.fetchingServerRouter);
 
 const port = 3000;
 

@@ -41,7 +41,7 @@ class _ServerJoiningScreenState extends State<ServerJoiningScreen> {
                   serverName: "askjdhajk",
                   height: 250,
                   width: double.infinity,
-                  imageLink: serverInfo[2]["logo"].toString(),
+                  imageCode: serverInfo[2]["logo"].toString(),
                 ),
                 const SizedBox(height: 8),
                 CustomTextField(

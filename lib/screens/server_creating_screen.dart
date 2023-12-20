@@ -56,7 +56,7 @@ class _ServerCreatingScreenState extends State<ServerCreatingScreen> {
                   serverName: serverNameController.text,
                   height: 250,
                   width: double.infinity,
-                  imageLink: serverInfo[2]["logo"].toString(),
+                  imageCode: serverInfo[2]["logo"].toString(),
                 ),
                 const SizedBox(height: 1),
                 CustomButton(

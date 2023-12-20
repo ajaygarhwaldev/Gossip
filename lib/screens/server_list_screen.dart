@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gossip/constants.dart';
-import 'package:gossip/info.dart';
 import 'package:gossip/screens/server_creating_screen.dart';
 import 'package:gossip/screens/server_joining_screen.dart';
 import 'package:gossip/screens/settings_screen.dart';
+import 'package:gossip/services/servers.dart';
 import 'package:gossip/widgets/app_bar.dart';
 import 'package:gossip/widgets/custom_button.dart';
 import 'package:gossip/widgets/custom_search_bar.dart';
@@ -19,7 +19,34 @@ class ServerList extends StatefulWidget {
 }
 
 class _ServerListState extends State<ServerList> {
+  List displayingServerList = [];
+  final ScrollController scrollController = ScrollController();
   final TextEditingController searchBarController = TextEditingController();
+  Server server = Server();
+
+  Future<void> displayingSever(String text) async {
+    var serverList = await server.fetchingServerList(text);
+    setState(() {
+      displayingServerList = serverList;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    displayingSever("");
+
+    scrollController.addListener(scrollListen);
+  }
+
+  // Check Whether user has scrolled at the end or not
+  void scrollListen() {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
+      print("Reached the end of the page!");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,7 +68,9 @@ class _ServerListState extends State<ServerList> {
                 CustomSearchBar(
                   barEditingController: searchBarController,
                   hintText: "Search",
-                  onChangeFunction: (val) {},
+                  onChangeFunction: (val) async {
+                    await displayingSever(searchBarController.text);
+                  },
                 ),
                 const SizedBox(height: 9),
                 CustomButton(
@@ -56,20 +85,16 @@ class _ServerListState extends State<ServerList> {
                   },
                 ),
                 const SizedBox(height: 8),
-                for (int i = 0; i < serverInfo.length; i++)
+                for (int i = 0; i < displayingServerList.length; i++)
                   InkWell(
-                    onTap: () {
-                      Navigator.pushNamed(
-                        context,
-                        ServerJoiningScreen.routeName,
-                      );
-                    },
+                    onTap: () {},
                     child: ServerTile(
                       height: 250,
                       width: double.infinity,
-                      participants: serverInfo[i]["participants"].toString(),
-                      serverName: serverInfo[i]["name"].toString(),
-                      imageLink: serverInfo[i]["logo"].toString(),
+                      participants:
+                          displayingServerList[i]["participants"].toString(),
+                      serverName: displayingServerList[i]["name"],
+                      imageCode: displayingServerList[i]["logo"],
                     ),
                   ),
               ],

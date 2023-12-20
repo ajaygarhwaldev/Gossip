@@ -12,33 +12,52 @@ import 'package:gossip/screens/sign_in_screen.dart';
 import 'package:gossip/screens/sign_up_screen.dart';
 import 'package:gossip/screens/student_profile.dart';
 import 'package:gossip/screens/user_profile.dart';
+import 'package:gossip/services/auth.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Checking for the token
+  String? storedToken = await Auth.verifyingToken();
+  String initialRoute =
+      storedToken != null ? ServerList.routeName : SignUpScreen.routeName;
+
+  // Create a GlobalKey to obtain the context
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
   runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: scaffoldBackgroundColor,
-        appBarTheme: const AppBarTheme(
-          backgroundColor: appBarColor,
-        ),
-      ),
-      home: SignUpScreen(),
-      routes: {
-        UserProfile.routeName: (context) => const UserProfile(),
-        HomeScreen.routeName: (context) => const HomeScreen(),
-        StudentProfile.routeName: (context) => const StudentProfile(),
-        ChatScreen.routeName: (context) => const ChatScreen(),
-        SettingScreen.routeName: (context) => const SettingScreen(),
-        EditProfile.routeName: (context) => const EditProfile(),
-        ChangePassword.routeName: (context) => const ChangePassword(),
-        ServerList.routeName: (context) => const ServerList(),
-        ServerJoiningScreen.routeName: (context) => const ServerJoiningScreen(),
-        ServerCreatingScreen.routeName: (context) =>
-            const ServerCreatingScreen(),
-        SignUpScreen.routeName: (context) => SignUpScreen(),
-        SignInScreen.routeName: (context) => SignInScreen(),
+    GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping outside of the input field
+        FocusScope.of(navigatorKey.currentContext!).unfocus();
       },
+      child: MaterialApp(
+        navigatorKey: navigatorKey,
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: scaffoldBackgroundColor,
+          appBarTheme: const AppBarTheme(
+            backgroundColor: appBarColor,
+          ),
+        ),
+        initialRoute: initialRoute,
+        routes: {
+          UserProfile.routeName: (context) => const UserProfile(),
+          HomeScreen.routeName: (context) => const HomeScreen(),
+          StudentProfile.routeName: (context) => const StudentProfile(),
+          ChatScreen.routeName: (context) => const ChatScreen(),
+          SettingScreen.routeName: (context) => const SettingScreen(),
+          EditProfile.routeName: (context) => const EditProfile(),
+          ChangePassword.routeName: (context) => const ChangePassword(),
+          ServerList.routeName: (context) => const ServerList(),
+          ServerJoiningScreen.routeName: (context) =>
+              const ServerJoiningScreen(),
+          ServerCreatingScreen.routeName: (context) =>
+              const ServerCreatingScreen(),
+          SignUpScreen.routeName: (context) => SignUpScreen(),
+          SignInScreen.routeName: (context) => SignInScreen(),
+        },
+      ),
     ),
   );
 }

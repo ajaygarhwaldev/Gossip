@@ -1,4 +1,4 @@
-const user = {
+const chats = {
     chatid: "aslkjd0931284",
     participants: ["userID1", "userID2"],
     messages: [
@@ -21,4 +21,31 @@ const user = {
             timestamp: "1/1/1",
         },
     ]
+}
+
+const userInformation = {
+    name: "String",
+    username: "String",
+    email: "String",
+    password: "String",
+    bio: "String",
+    currentPartner: "String",
+    overallRating: "Number",
+    likes: "Number",
+    hates: "Number",
+    serverId: "String",
+    isAdmin: "Bool",
+    listOfLikes: [
+        {
+            userId: "String",
+            username: "String",
+        },
+    ],
+    listOfHates: [
+        {
+            userId: "String",
+            username: "String",
+        },
+    ],
+    crushes: []
 }

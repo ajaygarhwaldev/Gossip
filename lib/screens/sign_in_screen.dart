@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:gossip/constants.dart';
 import 'package:gossip/screens/server_list_screen.dart';
 import 'package:gossip/screens/sign_up_screen.dart';
+import 'package:gossip/services/auth.dart';
 import 'package:gossip/widgets/app_bar.dart';
 import 'package:gossip/widgets/custom_button.dart';
 import 'package:gossip/widgets/custom_text_button.dart';
 import 'package:gossip/widgets/custom_text_field.dart';
 
 class SignInScreen extends StatelessWidget {
+  final Auth auth = Auth();
   static String routeName = "/signIn";
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -50,11 +52,20 @@ class SignInScreen extends StatelessWidget {
                     buttonColor: primaryColor,
                     buttonText: "Sign in",
                     textColor: secondayColor,
-                    onClickFunction: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        ServerList.routeName,
+                    onClickFunction: () async {
+                      var signedInInfo = await auth.signIn(
+                        usernameController.text,
+                        passwordController.text,
                       );
+                      print(signedInInfo["msg"]);
+                      if (signedInInfo["signedIn"]) {
+                        if (context.mounted) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            ServerList.routeName,
+                          );
+                        }
+                      }
                     },
                   ),
                   CustomTextButton(

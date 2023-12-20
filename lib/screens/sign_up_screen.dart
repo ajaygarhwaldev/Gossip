@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:gossip/constants.dart';
 import 'package:gossip/screens/sign_in_screen.dart';
+import 'package:gossip/services/auth.dart';
 import 'package:gossip/widgets/app_bar.dart';
 import 'package:gossip/widgets/custom_button.dart';
 import 'package:gossip/widgets/custom_text_button.dart';
 import 'package:gossip/widgets/custom_text_field.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
   static String routeName = "/signUp";
   SignUpScreen({super.key});
+
+  final TextEditingController usernameController = TextEditingController();
+
+  final TextEditingController emailController = TextEditingController();
+
+  final TextEditingController passwordController = TextEditingController();
+
+  final Auth auth = Auth();
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +58,21 @@ class SignUpScreen extends StatelessWidget {
                     buttonColor: primaryColor,
                     buttonText: "Sign up",
                     textColor: secondayColor,
-                    onClickFunction: () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        SignInScreen.routeName,
+                    onClickFunction: () async {
+                      var signedUpInfo = await auth.signUp(
+                        usernameController.text,
+                        emailController.text,
+                        passwordController.text,
                       );
+                      print(signedUpInfo["msg"]);
+                      if (signedUpInfo["signedUp"]) {
+                        if (context.mounted) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            SignInScreen.routeName,
+                          );
+                        }
+                      }
                     },
                   ),
                   CustomTextButton(

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gossip/constants.dart';
 import 'package:gossip/screens/server_creating_screen.dart';
-import 'package:gossip/screens/server_joining_screen.dart';
 import 'package:gossip/screens/settings_screen.dart';
 import 'package:gossip/services/servers.dart';
 import 'package:gossip/widgets/app_bar.dart';

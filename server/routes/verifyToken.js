@@ -26,9 +26,11 @@ verifyTokenRouter.post("/verify/token", async (req, res) => {
                 return;
             }
 
+            // Returning server ID too here, to make sure what should be the first page
             res.status(200).json({
                 msg: "Success",
                 validUser: true,
+                serverId: user.serverId,
             });
         });
     } catch (error) {

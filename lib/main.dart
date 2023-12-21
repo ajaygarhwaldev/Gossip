@@ -17,10 +17,7 @@ import 'package:gossip/services/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Checking for the token
-  String? storedToken = await Auth.verifyingToken();
-  String initialRoute =
-      storedToken != null ? ServerList.routeName : SignUpScreen.routeName;
+  String initialRoute = await Auth.verifyingToken();
 
   // Create a GlobalKey to obtain the context
   GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();

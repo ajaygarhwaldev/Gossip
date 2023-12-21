@@ -32,6 +32,7 @@ signInRouter.post("/user/signin", async (req, res) => {
             userExist,
             msg: "Logged In",
             token: token,
+            serverId: userExist.serverId,
         });
 
     } catch (error) {

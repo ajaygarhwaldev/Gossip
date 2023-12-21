@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'package:gossip/screens/home_screen.dart';
+import 'package:gossip/screens/server_list_screen.dart';
+import 'package:gossip/screens/sign_up_screen.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -51,7 +54,11 @@ class Auth {
           returnedMsg["userExist"]["_id"],
           returnedMsg["userExist"]["serverId"],
         );
-        return {"msg": returnedMsg["msg"], "signedIn": true};
+        return {
+          "msg": returnedMsg["msg"],
+          "signedIn": true,
+          "serverId": returnedMsg["serverId"]
+        };
       } else {
         return {"msg": returnedMsg["msg"], "signedIn": false};
       }
@@ -62,10 +69,8 @@ class Auth {
 
   static Future<dynamic> verifyingToken() async {
     final prefs = await SharedPreferences.getInstance();
-
-    String? token = await prefs.getString("token");
-    String? id = await prefs.getString("id");
-
+    String? token = prefs.getString("token");
+    String? id = prefs.getString("id");
     String apiUrl = "http://192.168.1.2:3000/verify/token";
     try {
       http.Response response = await http.post(
@@ -81,11 +86,15 @@ class Auth {
       );
 
       var returnedMsg = jsonDecode(response.body);
-      if (returnedMsg["validUser"]) {
-        return token;
+      if (returnedMsg["validUser"] && returnedMsg["serverId"].length != 0) {
+        return HomeScreen.routeName;
+      } else if (returnedMsg["validUser"]) {
+        return ServerList.routeName;
+      } else {
+        return SignUpScreen.routeName;
       }
     } catch (e) {
-      throw Exception(e);
+      throw Exception("Server not working");
     }
   }
 

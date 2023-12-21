@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gossip/constants.dart';
 import 'package:gossip/screens/server_creating_screen.dart';
+import 'package:gossip/screens/server_joining_screen.dart';
 import 'package:gossip/screens/settings_screen.dart';
 import 'package:gossip/services/servers.dart';
 import 'package:gossip/widgets/app_bar.dart';
@@ -86,12 +87,25 @@ class _ServerListState extends State<ServerList> {
                 const SizedBox(height: 8),
                 for (int i = 0; i < displayingServerList.length; i++)
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        ServerJoiningScreen.routeName,
+                        arguments: {
+                          "serverName": displayingServerList[i]["name"],
+                          "participants": displayingServerList[i]["membersList"]
+                              .length
+                              .toString(),
+                          "imageCode": displayingServerList[i]["logo"],
+                        },
+                      );
+                    },
                     child: ServerTile(
                       height: 250,
                       width: double.infinity,
-                      participants:
-                          displayingServerList[i]["participants"].toString(),
+                      participants: displayingServerList[i]["membersList"]
+                          .length
+                          .toString(),
                       serverName: displayingServerList[i]["name"],
                       imageCode: displayingServerList[i]["logo"],
                     ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gossip/constants.dart';
+import 'package:gossip/screens/home_screen.dart';
 import 'package:gossip/screens/server_list_screen.dart';
 import 'package:gossip/screens/sign_up_screen.dart';
 import 'package:gossip/services/auth.dart';
@@ -58,7 +59,15 @@ class SignInScreen extends StatelessWidget {
                         passwordController.text,
                       );
                       print(signedInInfo["msg"]);
-                      if (signedInInfo["signedIn"]) {
+                      if (signedInInfo["signedIn"] &&
+                          signedInInfo["serverId"].length != 0) {
+                        if (context.mounted) {
+                          Navigator.pushReplacementNamed(
+                            context,
+                            HomeScreen.routeName,
+                          );
+                        }
+                      } else if (signedInInfo["signedIn"]) {
                         if (context.mounted) {
                           Navigator.pushReplacementNamed(
                             context,

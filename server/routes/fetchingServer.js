@@ -7,7 +7,7 @@ const fetchingServerRouter = express.Router();
 fetchingServerRouter.post("/server", async (req, res) => {
     try {
         var { text } = req.body;
-        var response = await serverModelFile.userModel.find({
+        var response = await serverModelFile.serverModel.find({
             "name": { "$regex": text }
         }).sort({ participants: -1 }).limit(5);
         res.status(200).json(response);

@@ -1,16 +1,22 @@
 const express = require("express");
 const mongoose = require("mongoose");
+// const bodyParser = require("body-parser");
 const signUpRouteFile = require("./routes/signup");
 const signInRouterFile = require("./routes/signin");
 const verifyTokenRouterFile = require("./routes/verifyToken");
 const fetchingServerRouterFile = require("./routes/fetchingServer");
+const creatingServerRouterFile = require("./routes/creatingServer");
+const serverJoinRouteFile = require("./routes/joiningServer");
 
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
 app.use(signUpRouteFile.signUpRouter);
 app.use(signInRouterFile.signInRouter);
 app.use(verifyTokenRouterFile.verifyTokenRouter);
 app.use(fetchingServerRouterFile.fetchingServerRouter);
+app.use(creatingServerRouterFile.serverCreatingRoute);
+app.use(serverJoinRouteFile.serverJoinRoute);
 
 const port = 3000;
 

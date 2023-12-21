@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gossip/constants.dart';
-import 'package:gossip/info.dart';
 import 'package:gossip/screens/home_screen.dart';
+import 'package:gossip/services/servers.dart';
 import 'package:gossip/widgets/app_bar.dart';
 import 'package:gossip/widgets/custom_button.dart';
 import 'package:gossip/widgets/custom_text_field.dart';
 import 'package:gossip/widgets/server_tile.dart';
 
 class ServerJoiningScreen extends StatefulWidget {
-  const ServerJoiningScreen({super.key});
+  const ServerJoiningScreen({
+    super.key,
+  });
   static String routeName = "/serverJoining";
   @override
   State<ServerJoiningScreen> createState() => _ServerJoiningScreenState();
@@ -16,6 +18,27 @@ class ServerJoiningScreen extends StatefulWidget {
 
 class _ServerJoiningScreenState extends State<ServerJoiningScreen> {
   final TextEditingController passwordController = TextEditingController();
+  final Server server = Server();
+  late String serverName;
+  late String participants;
+  late String imageCode;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    serverName = args["serverName"];
+    participants = args["participants"];
+    imageCode = args["imageCode"];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,11 +60,11 @@ class _ServerJoiningScreenState extends State<ServerJoiningScreen> {
             child: Column(
               children: [
                 ServerTile(
-                  participants: "20",
-                  serverName: "askjdhajk",
+                  participants: participants,
+                  serverName: serverName,
                   height: 250,
                   width: double.infinity,
-                  imageCode: serverInfo[2]["logo"].toString(),
+                  imageCode: imageCode,
                 ),
                 const SizedBox(height: 8),
                 CustomTextField(
@@ -55,11 +78,20 @@ class _ServerJoiningScreenState extends State<ServerJoiningScreen> {
                   buttonColor: primaryColor,
                   buttonText: "Join",
                   textColor: secondayColor,
-                  onClickFunction: () {
-                    Navigator.pushReplacementNamed(
-                      context,
-                      HomeScreen.routeName,
+                  onClickFunction: () async {
+                    var joinedResponse = await server.joiningSever(
+                      serverName,
+                      passwordController.text,
                     );
+                    if (joinedResponse) {
+                      if (context.mounted) {
+                        Navigator.pop(context);
+                        Navigator.pushReplacementNamed(
+                          context,
+                          HomeScreen.routeName,
+                        );
+                      }
+                    }
                   },
                 ),
               ],

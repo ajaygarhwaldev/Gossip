@@ -55,7 +55,12 @@ const server = {
     limit: 30,
     logo: "ashdkajshd",
     participants: 7,
-    membersList: [],
+    membersList: [
+        {
+            userId,
+            username,
+        }
+    ],
     blacklisted: []
 }
 
